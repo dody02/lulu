@@ -1,0 +1,37 @@
+template header
+id
+type
+score_from
+score_to
+age_from
+age_to
+star
+tips
+tips_wrong_word
+
+package com.template;
+
+import net.sf.dframe.lulu.ScoreRuleMessage;
+
+template "score-rules"
+
+rule "score_rules_@{row.rowNumber}"
+no-loop true
+when
+       $s: ScoreRuleMessage(
+        type == "@{type}" ,
+       	score >= @{score_from} ,
+       	score <=  @{score_to} , 
+      	age >= @{age_from},
+       	age <=  @{age_to}
+       );
+     
+then
+
+       $s.setType("@{type}");
+       $s.setStart( @{star});
+       $s.setTip("@{tips}");
+       $s.setWrongWordTips("@{tips_wrong_word}");
+
+end
+end template
