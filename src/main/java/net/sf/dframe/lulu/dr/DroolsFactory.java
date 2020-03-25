@@ -47,7 +47,7 @@ public class DroolsFactory {
 		statelessKieSession = createStatelessSession();
 	}
 	
-	private static DroolsFactory instance = new DroolsFactory();
+	private static DroolsFactory instance = null;//new DroolsFactory();
 	
 	
 	/**
@@ -67,7 +67,10 @@ public class DroolsFactory {
 	}
 	
 	
-	public static  DroolsFactory getInstance() {
+	public synchronized  static  DroolsFactory getInstance() {
+		if (instance == null ) {
+			instance = new DroolsFactory();
+		}
 		return instance;
 	}
 	
@@ -127,7 +130,7 @@ public class DroolsFactory {
 	    }
 
 	  private KnowledgeBuilder getKieBuilder() throws IOException {
-	    	KnowledgeBuilder kieBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();; 
+	    	KnowledgeBuilder kieBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 	        return kieBuilder;
 	    }
 	    
