@@ -36,6 +36,8 @@ public class DroolsAutoConfiguration  {
     @ConditionalOnMissingBean(RlueProcessService.class)
     public RlueProcessService getRlueProcessService () {
     	RlueProcessService rps =  new RlueProcessService();
+    	rps.setkSession(getSession());
+    	rps.setStatelessKieSession(getStatelessSession());
     	return rps;
     }
 
