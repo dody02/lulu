@@ -11,13 +11,13 @@ import net.sf.dframe.lulu.dr.RuleMessage;
  * @author Dody
  *
  */
-@Service
+//@Service
 public class RlueProcessService {
 	
-	@Autowired
+//	@Autowired
 	private KieSession kSession;
 	
-	@Autowired
+//	@Autowired
 	private StatelessKieSession statelessKieSession;
 	
 	public void StatefulProcess (RuleMessage message) {

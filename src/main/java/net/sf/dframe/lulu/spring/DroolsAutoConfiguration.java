@@ -31,6 +31,13 @@ public class DroolsAutoConfiguration  {
     public  StatelessKieSession getStatelessSession() {
     	return DroolsFactory4Spring.getInstance().getStatelessKieSession();
     }
+    
+    @Bean(name="rlueProcessService")
+    @ConditionalOnMissingBean(RlueProcessService.class)
+    public RlueProcessService getRlueProcessService () {
+    	RlueProcessService rps =  new RlueProcessService();
+    	return rps;
+    }
 
 
     
