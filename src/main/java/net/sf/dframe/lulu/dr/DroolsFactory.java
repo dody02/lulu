@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
@@ -16,6 +17,8 @@ import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.builder.KnowledgeBuilder;
+import org.kie.internal.builder.KnowledgeBuilderError;
+import org.kie.internal.builder.KnowledgeBuilderErrors;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
@@ -142,6 +145,21 @@ public class DroolsFactory {
 		private void loadRules(KnowledgeBuilder builder) throws IOException {
 			for (File file : getRuleFiles()) {
 				builder.add(ResourceFactory.newFileResource(file),ResourceType.DRL);
+				checkErrorInfo(builder);
+			}
+		}
+
+		/**
+		 * 
+		 * @param builder
+		 */
+		private void checkErrorInfo(KnowledgeBuilder builder) {
+			KnowledgeBuilderErrors  ebe = builder.getErrors();
+			if (ebe != null && !ebe.isEmpty()) {
+				for (KnowledgeBuilderError kbe : ebe) {
+					log.warn(kbe.toString());					
+				}
+
 			}
 		}
 		
@@ -157,6 +175,7 @@ public class DroolsFactory {
 			for (File xlsFile: resources.keySet()) {
 				String rule = converter.compile(new FileInputStream(xlsFile), new FileInputStream(resources.get(xlsFile)), startRow, startCol);
 				builder.add(ResourceFactory.newByteArrayResource(rule.getBytes("UTF-8")), ResourceType.DRL);
+				checkErrorInfo(builder);
 				log.info("load template : "+xlsFile.getAbsolutePath());
 				log.info("load rule: "+rule);
 			}
