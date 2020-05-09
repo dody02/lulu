@@ -17,6 +17,7 @@ import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.builder.KnowledgeBuilder;
+import org.kie.internal.builder.KnowledgeBuilderConfiguration;
 import org.kie.internal.builder.KnowledgeBuilderError;
 import org.kie.internal.builder.KnowledgeBuilderErrors;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
@@ -133,7 +134,10 @@ public class DroolsFactory {
 	    }
 
 	  private KnowledgeBuilder getKieBuilder() throws IOException {
-	    	KnowledgeBuilder kieBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+		  	KnowledgeBuilderConfiguration kbConfig =KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration();
+		  	kbConfig.setProperty("drools.dialect.mvel.strict", "false");
+		  	System.setProperty("drools.dialect.mvel.strict", "false");
+	    	KnowledgeBuilder kieBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kbConfig);
 	        return kieBuilder;
 	    }
 	    
