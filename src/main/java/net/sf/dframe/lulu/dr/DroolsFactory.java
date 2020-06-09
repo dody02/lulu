@@ -146,7 +146,7 @@ public class DroolsFactory {
 	     * @param builder
 	     * @throws IOException
 	     */
-		private void loadRules(KnowledgeBuilder builder) throws IOException {
+		private void loadRules(KnowledgeBuilder builder) throws Exception {
 			for (File file : getRuleFiles()) {
 				builder.add(ResourceFactory.newFileResource(file),ResourceType.DRL);
 				checkErrorInfo(builder);
@@ -154,16 +154,17 @@ public class DroolsFactory {
 		}
 
 		/**
-		 * 
+		 * 检查是否出错
 		 * @param builder
+		 * @throws Exception 
 		 */
-		private void checkErrorInfo(KnowledgeBuilder builder) {
+		private void checkErrorInfo(KnowledgeBuilder builder) throws Exception {
 			KnowledgeBuilderErrors  ebe = builder.getErrors();
 			if (ebe != null && !ebe.isEmpty()) {
 				for (KnowledgeBuilderError kbe : ebe) {
 					log.warn(kbe.toString());					
 				}
-
+				throw new Exception("读取规则异常");
 			}
 		}
 		
@@ -172,7 +173,7 @@ public class DroolsFactory {
 		 * @param builder
 		 * @throws IOException 
 		 */
-		private void loadTemplateRules (KnowledgeBuilder builder) throws IOException {
+		private void loadTemplateRules (KnowledgeBuilder builder) throws Exception {
 			ExternalSpreadsheetCompiler converter = new ExternalSpreadsheetCompiler();
 			
 			Map<File,File> resources = getTempRuleFiles();
