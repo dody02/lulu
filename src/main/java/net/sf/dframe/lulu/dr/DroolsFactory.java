@@ -88,7 +88,7 @@ public class DroolsFactory {
 	}
 	
 	public void reload () {
-		if (kieSession == null)
+		if (kieSession != null)
 			kieSession.destroy();
 		kieSession = null;
 		statelessKieSession = null;
